@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>DirectoryScanner.Core</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="EPP.PresentationCore" Version="1.0.0" />
+      <PackageReference Include="FolderBrowserForWPF" Version="1.2.0" />
+      <PackageReference Include="PresentationFramework" Version="4.6.0" />
+      <PackageReference Include="WinForms.Library" Version="1.0.61" />
+    </ItemGroup>
+
+</Project>

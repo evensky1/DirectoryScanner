@@ -1,0 +1,53 @@
+﻿<Window x:Class="DirectoryScanner.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:impl="clr-namespace:DirectoryScanner.Core.Model.Impl;assembly=DirectoryScanner.Core"
+        xmlns:view="clr-namespace:DirectoryScanner.View"
+        xmlns:directoryScanner="clr-namespace:DirectoryScanner"
+        mc:Ignorable="d"
+        Title="Directory scanner" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TreeView Grid.Row="0" ItemsSource="{Binding Root}">
+            <TreeView.Resources>
+                
+                <HierarchicalDataTemplate DataType="{x:Type impl:DirectoryNode}"
+                                          ItemsSource="{Binding ChildComponents}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="30"
+                               Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, 
+                                                Path=Header,
+                                                Converter={x:Static directoryScanner:HeaderToImageConverter.Instance}}">
+                        </Image>
+                        <TextBlock VerticalAlignment="Center" Text="  "></TextBlock>
+                        <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Name}"></TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="  "></TextBlock>
+                        <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Size}"></TextBlock>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <DataTemplate DataType="{x:Type impl:FileNode}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="30"
+                               Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, 
+                                                Path=Header,
+                                                Converter={x:Static directoryScanner:HeaderToImageConverter.Instance}}">
+                        </Image>
+                        <TextBlock VerticalAlignment="Center" Text="  "></TextBlock>
+                        <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Name}"></TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="  "></TextBlock>
+                        <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Size}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button MinWidth="150" Command="{Binding ShowDialog}">Open</Button>
+            <Button MinWidth="150">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>
