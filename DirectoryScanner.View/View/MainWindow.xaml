@@ -46,8 +46,8 @@
             </TreeView.Resources>
         </TreeView>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button MinWidth="150" Command="{Binding ShowDialog}">Open</Button>
-            <Button MinWidth="150">Cancel</Button>
+            <Button MinWidth="150" Command="{Binding ExecuteScan}">Open</Button>
+            <Button MinWidth="150" Command="{Binding CancelOperation}">Cancel</Button>
         </StackPanel>
     </Grid>
 </Window>

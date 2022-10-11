@@ -21,15 +21,20 @@ public class DirectoryScannerVM : INotifyPropertyChanged
             OnPropertyChanged("Root");
         }
     }
-
     private CancellationTokenSource _ctSource;
     
-    private RelayCommand _showDialog;
-    public RelayCommand ShowDialog
+    private RelayCommand _executeScan;
+    public RelayCommand ExecuteScan
     {
-        get { return _showDialog ?? new RelayCommand(obj => RunScanner()); }
+        get { return _executeScan ?? new RelayCommand(obj => RunScanner()); }
     }
 
+    private RelayCommand _cancelOperation;
+    public RelayCommand CancelOperation
+    {
+        get { return _cancelOperation ?? new RelayCommand(obj => _ctSource.Cancel()); }
+    }
+    
     private void RunScanner()
     {
         var fbd = new FolderBrowserForWPF.Dialog();
@@ -46,12 +51,4 @@ public class DirectoryScannerVM : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-
-    // protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
-    // {
-    //     if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-    //     field = value;
-    //     OnPropertyChanged(propertyName);
-    //     return true;
-    // }
 }
