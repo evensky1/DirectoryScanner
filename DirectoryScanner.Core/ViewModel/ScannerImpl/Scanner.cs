@@ -33,7 +33,9 @@ public class Scanner : IScanner
             
             _tasks.RemoveAll(t => t.IsCompleted);
         }
-
+        
+        _initDir.SpecifySize();
+        
         return _initDir;
     }
 
@@ -43,7 +45,7 @@ public class Scanner : IScanner
 
         var currentDirInfo = new DirectoryInfo(currentDirNode.FullPath);
         //mb i should implement additional list with dirs in current task
-        //so it would not complete untill all sub dirs gonna be completed
+        //so it would not complete until all sub dirs gonna be completed
         //or push it into monitor or smth like that
         foreach (var dirInfo in currentDirInfo.EnumerateDirectories())
         {

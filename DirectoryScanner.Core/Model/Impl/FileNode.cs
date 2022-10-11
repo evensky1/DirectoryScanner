@@ -6,7 +6,7 @@ public class FileNode : IFileSystemComponent
     
     public long Size { get; set; }
     public string Name { get; set; }
-    public decimal RelativeSize { get; }
+    public decimal RelativeSize { get; set;  }
 
     public FileNode(string fullPath, string name, long size)
     {
@@ -15,8 +15,13 @@ public class FileNode : IFileSystemComponent
         Size = size;
     }
 
-    public void ExecuteInitialization()
+    public void SpecifySize()
     {
         Console.WriteLine($"File: {FullPath} {Size}");
+    }
+
+    public void InitRelativeSize(IFileSystemComponent parentComponent)
+    {
+        RelativeSize = Size / parentComponent.Size * 100;
     }
 }
