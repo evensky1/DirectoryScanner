@@ -2,9 +2,8 @@
 
 public interface IFileSystemComponent
 {
-    public long Size { get; set; }
-    public decimal RelativeSize { get; }
+    public long Size { get; }
+    public string RelativeSize { get; set; }
     void SpecifySize();
-
-    void InitRelativeSize(IFileSystemComponent parentComponent);
+    void InitRelativeSize(long parentSize);
 }

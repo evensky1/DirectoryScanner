@@ -28,6 +28,8 @@
                         <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Name}"></TextBlock>
                         <TextBlock VerticalAlignment="Center" Text="  "></TextBlock>
                         <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Size}"></TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="  "></TextBlock>
+                        <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding RelativeSize}"></TextBlock>
                     </StackPanel>
                 </HierarchicalDataTemplate>
                 <DataTemplate DataType="{x:Type impl:FileNode}">
@@ -41,6 +43,8 @@
                         <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Name}"></TextBlock>
                         <TextBlock VerticalAlignment="Center" Text="  "></TextBlock>
                         <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Size}"></TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="  "></TextBlock>
+                        <TextBlock VerticalAlignment="Center" FontWeight="Bold" Text="{Binding RelativeSize}"></TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </TreeView.Resources>

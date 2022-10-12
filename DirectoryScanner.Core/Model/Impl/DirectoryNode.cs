@@ -1,4 +1,5 @@
 ﻿using DirectoryScanner.Core.Model;
+using Microsoft.VisualBasic;
 
 namespace DirectoryScanner.Core.Model.Impl;
 
@@ -6,9 +7,11 @@ public class DirectoryNode : IFileSystemComponent
 {
     public List<IFileSystemComponent> ChildComponents { get; }
     public string FullPath { get; }
+
     public long Size { get; set; }
+
     public string Name { get; set; }
-    public decimal RelativeSize { get; set; }
+    public string RelativeSize { get; set; }
     private bool _isRecounted;
 
     public DirectoryNode(string fullPath, string name)
@@ -39,9 +42,10 @@ public class DirectoryNode : IFileSystemComponent
         _isRecounted = true;
     }
 
-    public void InitRelativeSize(IFileSystemComponent parentComponent)
+    public void InitRelativeSize(long parentSize)
     {
-        ChildComponents.ForEach(c => InitRelativeSize(this));
-        RelativeSize = Size / parentComponent.Size * 100;
+        var relativeSize = Size / (decimal) parentSize * 100;
+        RelativeSize = $"{relativeSize:0.00}%";
+        ChildComponents.ForEach(c => c.InitRelativeSize(Size));
     }
 }
