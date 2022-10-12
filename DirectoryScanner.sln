@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryScanner.View", "Di
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryScanner.Core", "DirectoryScanner.Core\DirectoryScanner.Core.csproj", "{550E08ED-0107-41F6-AD86-D576D94EBC16}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryScanner.Tests", "DirectoryScanner.Tests\DirectoryScanner.Tests.csproj", "{50EFF31B-8FB5-46A6-9C67-F3D8989E6925}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{550E08ED-0107-41F6-AD86-D576D94EBC16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{550E08ED-0107-41F6-AD86-D576D94EBC16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{550E08ED-0107-41F6-AD86-D576D94EBC16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50EFF31B-8FB5-46A6-9C67-F3D8989E6925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50EFF31B-8FB5-46A6-9C67-F3D8989E6925}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50EFF31B-8FB5-46A6-9C67-F3D8989E6925}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50EFF31B-8FB5-46A6-9C67-F3D8989E6925}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

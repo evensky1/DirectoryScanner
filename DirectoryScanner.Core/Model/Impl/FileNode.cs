@@ -22,7 +22,7 @@ public class FileNode : IFileSystemComponent
 
     public void InitRelativeSize(long parentSize)
     {
-        var relativeSize = Size / (decimal) parentSize * 100;
+        var relativeSize = parentSize != 0 ? Size / (decimal) parentSize * 100 : 0;
         RelativeSize = $"{relativeSize:0.00}%";
     }
 }

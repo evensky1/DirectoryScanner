@@ -29,7 +29,7 @@ public class Scanner : IScanner
             if (_cancellationToken.IsCancellationRequested) break;
 
             if (_dirsQueue.TryDequeue(out var currentDirNode))
-                _tasks.Add(Task.Run(() => ScanDir(currentDirNode), _cancellationToken));
+                _tasks.Add(Task.Run(() => ScanDir(currentDirNode)));
             
             _tasks.RemoveAll(t => t.IsCompleted);
         }

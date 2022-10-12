@@ -44,7 +44,7 @@ public class DirectoryNode : IFileSystemComponent
 
     public void InitRelativeSize(long parentSize)
     {
-        var relativeSize = Size / (decimal) parentSize * 100;
+        var relativeSize = parentSize != 0 ? Size / (decimal) parentSize * 100 : 0;
         RelativeSize = $"{relativeSize:0.00}%";
         ChildComponents.ForEach(c => c.InitRelativeSize(Size));
     }
