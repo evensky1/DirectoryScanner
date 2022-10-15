@@ -2,7 +2,7 @@
 
 namespace DirectoryScanner.Core.ViewModel.Command;
 
-public class RelayCommand : ICommand
+public class CommonCommand : ICommand
 {
     private Action<object> execute;
     private Func<object, bool> canExecute;
@@ -13,7 +13,7 @@ public class RelayCommand : ICommand
         remove => CommandManager.RequerySuggested -= value;
     }
 
-    public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
+    public CommonCommand(Action<object> execute, Func<object, bool> canExecute = null)
     {
         this.execute = execute;
         this.canExecute = canExecute;

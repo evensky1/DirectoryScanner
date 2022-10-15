@@ -23,16 +23,16 @@ public class DirectoryScannerVM : INotifyPropertyChanged
     }
     private CancellationTokenSource _ctSource;
     
-    private RelayCommand _executeScan;
-    public RelayCommand ExecuteScan
+    private CommonCommand _executeScan;
+    public CommonCommand ExecuteScan
     {
-        get { return _executeScan ?? new RelayCommand(obj => RunScanner()); }
+        get { return _executeScan ?? new CommonCommand(obj => RunScanner()); }
     }
 
-    private RelayCommand _cancelOperation;
-    public RelayCommand CancelOperation
+    private CommonCommand _cancelOperation;
+    public CommonCommand CancelOperation
     {
-        get { return _cancelOperation ?? new RelayCommand(obj => _ctSource.Cancel()); }
+        get { return _cancelOperation ?? new CommonCommand(obj => _ctSource.Cancel()); }
     }
     
     private void RunScanner()
