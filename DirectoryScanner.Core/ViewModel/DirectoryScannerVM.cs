@@ -32,19 +32,23 @@ public class DirectoryScannerVM : INotifyPropertyChanged
     private CommonCommand _cancelOperation;
     public CommonCommand CancelOperation
     {
-        get { return _cancelOperation ?? new CommonCommand(obj => _ctSource.Cancel()); }
+        get { return _cancelOperation ?? new CommonCommand(obj =>
+        {
+            _ctSource.Cancel();
+            _ctSource.Dispose();
+        }); }
     }
     
     private void RunScanner()
     {
         var fbd = new FolderBrowserForWPF.Dialog();
-        if (fbd.ShowDialog().GetValueOrDefault())
+        if (!fbd.ShowDialog().GetValueOrDefault()) return;
+        _ctSource = new CancellationTokenSource();
+        Task.Run(() =>
         {
-            _ctSource = new CancellationTokenSource();
-            var scanner = new Scanner(fbd.FileName, 12, _ctSource.Token);
-            Root.Clear();
-            Root.Add(scanner.StartScan());
-        }
+            var scanner = new Scanner(fbd.FileName, 10, _ctSource.Token);
+            Root = new ObservableCollection<IFileSystemComponent> { scanner.StartScan() };
+        });
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

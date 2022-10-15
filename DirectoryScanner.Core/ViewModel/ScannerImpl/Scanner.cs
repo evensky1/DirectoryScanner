@@ -1,4 +1,6 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.Security;
 using DirectoryScanner.Core.Model;
 using DirectoryScanner.Core.Model.Impl;
 
@@ -7,31 +9,33 @@ namespace DirectoryScanner.Core.ViewModel.ScannerImpl;
 public class Scanner : IScanner
 {
     private readonly Semaphore _semaphore;
-    private readonly ConcurrentQueue<DirectoryNode> _dirsQueue;
-    private readonly List<Task> _tasks;
+    private readonly ConcurrentQueue<Task> _tasks;
     private readonly CancellationToken _cancellationToken;
     private readonly DirectoryNode _initDir;
 
     public Scanner(string initDirPath, int maxThreadCount, CancellationToken cancellationToken)
     {
         _semaphore = new Semaphore(maxThreadCount, maxThreadCount);
-        _dirsQueue = new ConcurrentQueue<DirectoryNode>();
-        _tasks = new List<Task>();
+        _tasks = new ConcurrentQueue<Task>();
         _initDir = new DirectoryNode(initDirPath, Path.GetFileName(initDirPath));
-        _dirsQueue.Enqueue(_initDir);
         _cancellationToken = cancellationToken;
     }
 
     public IFileSystemComponent StartScan()
     {
-        while (_dirsQueue.Any() || _tasks.Any())
+        try
         {
-            if (_cancellationToken.IsCancellationRequested) break;
-
-            if (_dirsQueue.TryDequeue(out var currentDirNode))
-                _tasks.Add(Task.Run(() => ScanDir(currentDirNode)));
-            
-            _tasks.RemoveAll(t => t.IsCompleted);
+            _tasks.Enqueue(Task.Run(() => ScanDir(_initDir), _cancellationToken));
+        
+            while (_tasks.TryDequeue(out var currentTask))
+            {
+                if (_cancellationToken.IsCancellationRequested) break;
+                currentTask.Wait(_cancellationToken);
+            }
+        }
+        catch (Exception e)
+        {
+            _tasks.Clear();
         }
         
         _initDir.SpecifySize();
@@ -43,30 +47,37 @@ public class Scanner : IScanner
     {
         _semaphore.WaitOne();
 
-        var currentDirInfo = new DirectoryInfo(currentDirNode.FullPath);
-
-        foreach (var dirInfo in currentDirInfo.EnumerateDirectories())
+        try
         {
-            if (_cancellationToken.IsCancellationRequested) return;
-
-            var childDirNode = new DirectoryNode(dirInfo.FullName, dirInfo.Name);
-
-            _dirsQueue.Enqueue(childDirNode);
-
-            currentDirNode.Add(childDirNode);
-        }
-
-        foreach (var fileInfo in currentDirInfo.EnumerateFiles())
-        {
-            if (_cancellationToken.IsCancellationRequested) return;
-
-            var fileNode = new FileNode(fileInfo.FullName, fileInfo.Name, fileInfo.Length);
-
-            currentDirNode.Add(fileNode);
+            var currentDirInfo = new DirectoryInfo(currentDirNode.FullPath);
             
-            currentDirNode.IncSize(fileNode.Size);
+            foreach (var dirInfo in currentDirInfo.EnumerateDirectories())
+            {
+                if (_cancellationToken.IsCancellationRequested) return;
+
+                var childDirNode = new DirectoryNode(dirInfo.FullName, dirInfo.Name);
+
+                _tasks.Enqueue(Task.Run(() => ScanDir(childDirNode), _cancellationToken));
+
+                currentDirNode.Add(childDirNode);
+            }
+
+            foreach (var fileInfo in currentDirInfo.EnumerateFiles())
+            {
+                if (_cancellationToken.IsCancellationRequested) return;
+
+                var fileNode = new FileNode(fileInfo.FullName, fileInfo.Name, fileInfo.Length);
+
+                currentDirNode.Add(fileNode);
+
+                currentDirNode.IncSize(fileNode.Size);
+            }
         }
-        
+        catch (Exception e)
+        {
+            // ignored
+        }
+
         _semaphore.Release();
     }
 }

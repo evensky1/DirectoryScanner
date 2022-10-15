@@ -1,5 +1,4 @@
 using DirectoryScanner.Core.Model.Impl;
-using DirectoryScanner.Core.ViewModel;
 using DirectoryScanner.Core.ViewModel.ScannerImpl;
 
 namespace DirectoryScanner.Tests;
@@ -54,7 +53,7 @@ public class Tests
         var scanner = new Scanner(RootDirPath, 10, cancellationSource.Token);
         
         var task = Task<DirectoryNode>.Factory.StartNew(() => (DirectoryNode)scanner.StartScan());
-        for (var i = 0; i < 17500; i++)
+        for (var i = 0; i < 16000; i++)
         {
             Console.WriteLine("My cool thread sleep");
         }
