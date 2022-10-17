@@ -59,7 +59,10 @@ public class Tests
         }
         cancellationSource.Cancel();
         var result = task.Result;
-        Assert.That(result.ChildComponents, Has.Count.Not.EqualTo(9));
-        Assert.That(result.ChildComponents, Has.Count.GreaterThan(0));
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.ChildComponents, Has.Count.LessThan(9));
+            Assert.That(result.ChildComponents, Has.Count.GreaterThan(0));
+        });
     }
 }

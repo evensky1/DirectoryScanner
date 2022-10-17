@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DirectoryScanner.Core.Model;
+using DirectoryScanner.Core.Model.Impl;
 using DirectoryScanner.Core.ViewModel.Command;
 using DirectoryScanner.Core.ViewModel.ScannerImpl;
 
@@ -43,6 +44,7 @@ public class DirectoryScannerVM : INotifyPropertyChanged
     {
         var fbd = new FolderBrowserForWPF.Dialog();
         if (!fbd.ShowDialog().GetValueOrDefault()) return;
+        Root = new ObservableCollection<IFileSystemComponent> {new DirectoryNode("", "In progress")};
         _ctSource = new CancellationTokenSource();
         Task.Run(() =>
         {
