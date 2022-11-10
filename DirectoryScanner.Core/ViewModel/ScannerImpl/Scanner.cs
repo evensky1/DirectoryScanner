@@ -27,9 +27,8 @@ public class Scanner : IScanner
         {
             _tasks.Enqueue(Task.Run(() => ScanDir(_initDir), _cancellationToken));
         
-            while (_tasks.TryDequeue(out var currentTask))
+            while (_tasks.TryDequeue(out var currentTask) && !_cancellationToken.IsCancellationRequested)
             {
-                if (_cancellationToken.IsCancellationRequested) break;
                 currentTask.Wait(_cancellationToken);
             }
         }

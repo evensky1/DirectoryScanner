@@ -52,7 +52,7 @@ public class Tests
         var cancellationSource = new CancellationTokenSource();
         var scanner = new Scanner(RootDirPath, 10, cancellationSource.Token);
         
-        var task = Task<DirectoryNode>.Factory.StartNew(() => (DirectoryNode)scanner.StartScan());
+        var task = Task<DirectoryNode>.Factory.StartNew(() => (DirectoryNode)scanner.StartScan(), cancellationSource.Token);
         for (var i = 0; i < 16000; i++)
         {
             Console.WriteLine("My cool thread sleep");

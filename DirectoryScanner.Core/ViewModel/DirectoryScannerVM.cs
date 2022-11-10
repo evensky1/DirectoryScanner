@@ -35,6 +35,7 @@ public class DirectoryScannerVM : INotifyPropertyChanged
     {
         get { return _cancelOperation ?? new CommonCommand(obj =>
         {
+            if (_ctSource == null && _ctSource.IsCancellationRequested) return;
             _ctSource.Cancel();
             _ctSource.Dispose();
         }); }
